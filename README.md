@@ -83,4 +83,4 @@ Power BI / Tableau — KPI Dashboards
 **Aditya Dhande**
 - Email: adidhande35@gmail.com
 - LinkedIn: [linkedin.com/in/adityadhande](https://linkedin.com)
-- Portfolio: [[your portfolio link](https://adityadhande.lovable.app/)]
+- [[Portfolio](https://adityadhande.lovable.app/)]
