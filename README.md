@@ -1,6 +1,31 @@
----
+# E-Commerce Customer Analytics
 
-## 📁 Dataset
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![BigQuery](https://img.shields.io/badge/BigQuery-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)
+![dbt](https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white)
+
+End-to-end analytics pipeline processing **53,132+ orders** across **5,000 customers** — tracking revenue, churn, and retention KPIs through interactive Power BI dashboards.
+
+## Key Metrics
+
+| Metric | Value |
+|--------|-------|
+| Total Customers | 5,000 |
+| Total Orders | 53,132 |
+| Total Revenue | $109.1M |
+| Avg Order Value | $2,054 |
+| Churn Rate | 25.9% |
+| Retention Rate | 74.1% |
+| Revenue at Risk | $7.6M |
+| Top City | Mumbai — $24.6M |
+
+## Pipeline Architecture
+
+Raw Data (Excel / SQL) → Python (Pandas, NumPy) — Data Cleaning & EDA → Google BigQuery — Cloud Data Warehouse → dbt — Staging → Intermediate → Data Marts → Power BI — 3 Interactive KPI Dashboards
+
+## Dataset
 
 | Sheet | Rows | Description |
 |-------|------|-------------|
@@ -9,9 +34,7 @@
 | KPI Summary | — | Pre-aggregated headline metrics |
 | Segment Summary | — | Premium / Standard / Basic breakdown |
 
----
-
-## 📈 Dashboards
+## Dashboards
 
 ### Dashboard 1 — Customer Overview
 
@@ -20,10 +43,8 @@
 - Customer Segment Breakdown — Premium / Standard / Basic donut
 - Orders by Category — Electronics, Clothing, Home, Books, Sports
 - Gender Distribution — Male 53.7% / Female 46.3%
-- Top 8 Cities by Revenue — Mumbai $24.6M → Ahmedabad $4.3M
+- Top 8 Cities by Revenue — Mumbai $24.6M to Ahmedabad $4.3M
 - Slicers — Year | Segment | City | Gender
-
----
 
 ### Dashboard 2 — Revenue & Churn Analysis
 
@@ -40,8 +61,6 @@
 | Standard | 1,659 | $33.3M | 25.3% |
 | Basic | 1,695 | $15.3M | 33.4% |
 
----
-
 ### Dashboard 3 — Retention & Lifecycle
 
 - Retention Rate Trend — 24-month rolling
@@ -50,33 +69,32 @@
 - Retention by Segment
 - Top 10 Customers by Lifetime Value
 
----
+## DAX Measures
 
-## 🔧 DAX Measures
+    Total Customers = COUNTROWS(Customers)
+    
+    Total Orders = COUNTROWS(Orders)
+    
+    Total Revenue = SUM(Orders[ORDER VALUE ($)])
+    
+    Avg Order Value = DIVIDE([Total Revenue], [Total Orders])
+    
+    Churn Rate % = DIVIDE(CALCULATE(COUNTROWS(Customers), Customers[CHURN]=1), COUNTROWS(Customers)) * 100
+    
+    Retention Rate % = 100 - [Churn Rate %]
+    
+    Active Customers = CALCULATE(COUNTROWS(Customers), Customers[RETENTION]=1)
+    
+    Revenue at Risk = CALCULATE([Total Revenue], Customers[CHURN]=1)
 
-```dax
-Total Customers = COUNTROWS(Customers)
-Total Orders = COUNTROWS(Orders)
-Total Revenue = SUM(Orders[ORDER VALUE ($)])
-Avg Order Value = DIVIDE([Total Revenue], [Total Orders])
-Churn Rate % = DIVIDE(CALCULATE(COUNTROWS(Customers), Customers[CHURN]=1), COUNTROWS(Customers)) * 100
-Retention Rate % = 100 - [Churn Rate %]
-Active Customers = CALCULATE(COUNTROWS(Customers), Customers[RETENTION]=1)
-Revenue at Risk = CALCULATE([Total Revenue], Customers[CHURN]=1)
-```
-
----
-
-## 🔍 Key SQL Techniques
+## Key SQL Techniques
 
 - CTEs for modular query structure
 - Window functions — ROW_NUMBER, RANK, SUM OVER for cohort analysis
 - Aggregations for revenue and churn metrics
 - Joins across customer, order, and product tables
 
----
-
-## 🛠️ dbt Models
+## dbt Models
 
 | Layer | Model | Description |
 |-------|-------|-------------|
@@ -87,9 +105,7 @@ Revenue at Risk = CALCULATE([Total Revenue], Customers[CHURN]=1)
 | Mart | mart_churn | Churn metrics and risk scoring |
 | Mart | mart_retention | Cohort retention calculations |
 
----
-
-## 📦 Tech Stack
+## Tech Stack
 
 | Category | Tools |
 |----------|-------|
@@ -100,11 +116,10 @@ Revenue at Risk = CALCULATE([Total Revenue], Customers[CHURN]=1)
 | Query Language | SQL (CTEs, Window Functions) |
 | Version Control | Git, GitHub |
 
----
-
-## 👤 Author
+## Author
 
 **Aditya Dhande**
-📧 adityadhande35@gmail.com
-💼 [LinkedIn](https://linkedin.com/in/adiii-dhande)
-🐙 [GitHub](https://github.com/adiii-dhande)
+
+- Email: adityadhande35@gmail.com
+- LinkedIn: https://linkedin.com/in/adiii-dhande
+- GitHub: https://github.com/adiii-dhande
